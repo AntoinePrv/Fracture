@@ -46,11 +46,10 @@ mod segment {
 mod style {
     use termcolor;
 
-    // TODO replace String with something that impl Display
-    pub struct MutliSegmentJoiner {
-        pub separator: String,
+    pub struct MutliSegmentJoiner<T: std::fmt::Display> {
+        pub separator: T,
         pub max_elems: usize,
-        pub elipsis: String,
+        pub elipsis: T,
     }
 
     pub struct MutliSegmentStyle {
@@ -70,7 +69,7 @@ mod style {
 fn write_multi_segment(
     stream: &mut impl std::io::Write,
     seg: &segment::Path,
-    joiner: &style::MutliSegmentJoiner,
+    joiner: &style::MutliSegmentJoiner<&str>,
 ) -> std::io::Result<()> {
     let mut elems = seg.elements().take(joiner.max_elems);
     match elems.next() {
@@ -97,9 +96,9 @@ fn easy(seg: &segment::Path, style: &style::MutliSegmentStyle) -> std::io::Resul
         &mut stdout,
         seg,
         &style::MutliSegmentJoiner {
-            separator: " / ".to_owned(),
+            separator: " / ",
             max_elems: 5,
-            elipsis: "...".to_owned(),
+            elipsis: "...",
         },
     );
     stdout.reset()?;
