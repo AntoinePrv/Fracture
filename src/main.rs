@@ -7,7 +7,7 @@ mod segment {
     }
 
     impl Path {
-        pub fn new(path: std::path::PathBuf, show_home: bool) -> Path {
+        pub fn new(path: std::path::PathBuf, show_home: bool) -> Self {
             Path { path, show_home }
         }
 
@@ -39,6 +39,20 @@ mod segment {
             self.path.components().count();
             none.into_iter()
                 .chain(self.path.components().map(Self::component_to_str))
+        }
+    }
+
+    pub struct DateTime {
+        date: chrono::DateTime<chrono::Local>,
+        format: String,
+    }
+
+    impl DateTime {
+        pub fn new(format: String) -> Self {
+             DateTime{
+                date: chrono::Local::now(),
+                format,
+            }
         }
     }
 }
