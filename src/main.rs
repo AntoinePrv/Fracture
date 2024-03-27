@@ -1,3 +1,11 @@
+mod element {
+    trait Element: std::fmt::Display {}
+
+    trait ElementConfig {
+        type Rendered: Element;
+    }
+}
+
 mod segment {
     use std::fmt;
 
